@@ -100,8 +100,8 @@ fi
 
 debug "Listing dir"
 ls
-cwd
 
+git init
 
 sudo bash $AWSEB_ROOT/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
 if [ $? -ne "0" ]
