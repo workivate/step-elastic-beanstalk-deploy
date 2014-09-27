@@ -98,12 +98,8 @@ then
     fail "EB is not working or is not set up correctly."
 fi
 
-debug "Listing dir"
-ls
-
-
-
 debug "Creating deployment git repo"
+
 git config --global user.email "wercker@workangel.com"
 git config --global user.name "wercker"
 echo ".elasticbeanstalk/" > .gitignore
