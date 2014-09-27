@@ -98,6 +98,11 @@ then
     fail "EB is not working or is not set up correctly."
 fi
 
+debug "Listing dir"
+ls
+cwd
+
+
 sudo bash $AWSEB_ROOT/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
 if [ $? -ne "0" ]
 then
