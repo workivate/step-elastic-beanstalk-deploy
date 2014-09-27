@@ -102,6 +102,9 @@ debug "Listing dir"
 ls
 
 git init
+git add --all
+git commit -m 'Deployment commit by Wercker'
+git checkout -b $WERCKER_GIT_BRANCH
 
 sudo bash $AWSEB_ROOT/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
 if [ $? -ne "0" ]
