@@ -91,6 +91,10 @@ then
 fi
 
 debug "Checking if eb exists and can connect."
+
+debug "Listing directory"
+ls
+
 $AWSEB_TOOL status
 if [ $? -ne "0" ]
 then
@@ -107,7 +111,7 @@ debug "Pushing to AWS eb servers."
 git aws.push
 if [ $? -ne "0" ]
 then
-    fail "Unable to push to Amazon Elastic Beanstalk"   
+    fail "Unable to push to Amazon Elastic Beanstalk"
 fi
 
 success 'Successfully pushed to Amazon Elastic Beanstalk'
