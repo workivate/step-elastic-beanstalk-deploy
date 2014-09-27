@@ -101,8 +101,14 @@ fi
 debug "Listing dir"
 ls
 
+
+
+debug "Creating deployment git repo"
+git config --global user.email "wercker@workangel.com"
+git config --global user.name "wercker"
+echo ".elasticbeanstalk/" > .gitignore
 git init
-git add --all
+git add .
 git commit -m 'Deployment commit by Wercker'
 git checkout -b $WERCKER_GIT_BRANCH
 
