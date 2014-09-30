@@ -107,6 +107,7 @@ git init
 git add .
 git commit -m 'Deployment commit by Wercker'
 git checkout -b $WERCKER_GIT_BRANCH
+eb branch
 
 sudo bash $AWSEB_ROOT/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
 if [ $? -ne "0" ]
