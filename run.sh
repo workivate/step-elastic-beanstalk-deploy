@@ -110,7 +110,7 @@ git config --global user.name "wercker"
 echo ".elasticbeanstalk/" > .gitignore
 git init
 git add .
-git commit -m '$WERCKER_ELASTIC_BEANSTALK_DEPLOY_COMMIT_MESSAGE'
+git commit -m $WERCKER_ELASTIC_BEANSTALK_DEPLOY_COMMIT_MESSAGE
 git checkout -b $WERCKER_GIT_BRANCH
 
 sudo bash $AWSEB_ROOT/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
