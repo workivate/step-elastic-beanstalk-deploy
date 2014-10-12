@@ -22,6 +22,11 @@ then
     fail "Missing or empty option SECRET, please check wercker.yml"
 fi
 
+if [ ! -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_COMMIT_MESSAGE" ]
+then
+    fail "Missing or empty option COMMIT_MESSAGE, please check wercker.yml"
+fi
+
 if [ ! -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION" ]
 then
     warn "Missing or empty option REGION, defaulting to us-west-2"
@@ -105,9 +110,8 @@ git config --global user.name "wercker"
 echo ".elasticbeanstalk/" > .gitignore
 git init
 git add .
-git commit -m 'Deployment commit by Wercker'
+git commit -m '$WERCKER_ELASTIC_BEANSTALK_DEPLOY_COMMIT_MESSAGE'
 git checkout -b $WERCKER_GIT_BRANCH
-$AWSEB_TOOL branch
 
 sudo bash $AWSEB_ROOT/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
 if [ $? -ne "0" ]
