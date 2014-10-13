@@ -22,7 +22,7 @@ deploy:
             secret: $AMAZON_SECRET_KEY
             app_name: My Application
             env_name: production
-            commit_message : 'Your awesome commit message'
-            sub_directory: 'dist'
+            commit_message : My commit message
+            sub_directory: dist
             region: us-west-2
 ```
