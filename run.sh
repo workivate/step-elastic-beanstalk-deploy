@@ -38,21 +38,41 @@ then
     warn "Debug mode turned on, this can dump potentially dangerous information to log files."
 fi
 
+if [ -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_SUB_DIRECTORY" ]
+then
+    DEPLOYMENT_DIR="$WERCKER_SOURCE_DIR/$WERCKER_ELASTIC_BEANSTALK_DEPLOY_SUB_DIRECTORY"
+fi
+
+
+
 AWSEB_ROOT="$WERCKER_STEP_ROOT/eb-tools"
 AWSEB_TOOL="$AWSEB_ROOT/eb/linux/python2.7/eb"
 
 mkdir -p "/home/ubuntu/.elasticbeanstalk/"
-mkdir -p "$WERCKER_SOURCE_DIR/dist/.elasticbeanstalk/"
+if [ -n "$DEPLOYMENT_DIR" ]
+then
+    mkdir -p "$DEPLOYMENT_DIR/.elasticbeanstalk/"
+else
+    mkdir -p "$WERCKER_SOURCE_DIR/.elasticbeanstalk/"
+fi
+
 if [ $? -ne "0" ]
 then
     fail "Unable to make directory.";
 fi
 
 debug "Change back to the source dir.";
-cd $WERCKER_SOURCE_DIR/dist/
+if [ -n "$DEPLOYMENT_DIR" ]
+then
+    cd $DEPLOYMENT_DIR
+    AWSEB_CONFIG_FILE="$DEPLOYMENT_DIR/.elasticbeanstalk/config"
+else
+    cd $WERCKER_SOURCE_DIR
+    AWSEB_CONFIG_FILE="$WERCKER_SOURCE_DIR/.elasticbeanstalk/config"
+fi
 
 AWSEB_CREDENTIAL_FILE="/home/ubuntu/.elasticbeanstalk/aws_credential_file"
-AWSEB_CONFIG_FILE="$WERCKER_SOURCE_DIR/dist/.elasticbeanstalk/config"
+
 AWSEB_DEVTOOLS_ENDPOINT="git.elasticbeanstalk.$WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION.amazonaws.com"
 AWSEB_SERVICE_ENDPOINT="https://elasticbeanstalk.$WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION.amazonaws.com"
 

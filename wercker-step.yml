@@ -1,5 +1,5 @@
 name: elastic-beanstalk-deploy
-version: 2.0.0
+version: 2.1.0
 description: Allows you to deploy your application to an already existing amazon Elastic Beanstalk
 keywords:
   - amazon
@@ -9,3 +9,6 @@ keywords:
   - aws eb
   - amazon eb
   - eb
+  - grunt
+  - javascript
+  - compiled
