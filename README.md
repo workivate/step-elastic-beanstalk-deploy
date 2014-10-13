@@ -16,10 +16,11 @@
 ```yml
 deploy:
     steps:
-        - mrono/elastic-beanstalk-deploy:
+        - patrickwolleb/elastic-beanstalk-deploy:
             key: $AMAZON_KEY
             secret: $AMAZON_SECRET_KEY
             app_name: My Application
             env_name: production
+            commit_message : 'some string'
             region: us-west-2
 ```
