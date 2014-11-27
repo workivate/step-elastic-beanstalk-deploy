@@ -33,7 +33,7 @@ then
     warn "Debug mode turned on, this can dump potentially dangerous information to log files."
 fi
 
-AWSEB_ROOT="$WERCKER_STEP_ROOT/eb-tools"
+AWSEB_ROOT="$WERCKER_STEP_ROOT/eb-cli"
 AWSEB_TOOL="$AWSEB_ROOT/bin/eb"
 
 #mkdir -p "/home/ubuntu/.elasticbeanstalk/"
