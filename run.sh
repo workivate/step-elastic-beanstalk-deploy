@@ -34,7 +34,7 @@ then
 fi
 
 AWSEB_ROOT="$WERCKER_STEP_ROOT/eb-tools"
-AWSEB_TOOL="$AWSEB_ROOT/awsebcli-3.0.9/bin/eb"
+AWSEB_TOOL="$AWSEB_ROOT/bin/eb"
 
 #mkdir -p "/home/ubuntu/.elasticbeanstalk/"
 mkdir -p "$WERCKER_SOURCE_DIR/.elasticbeanstalk/"
