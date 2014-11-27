@@ -38,6 +38,7 @@ AWSEB_TOOL="$AWSEB_ROOT/bin/eb"
 
 #mkdir -p "/home/ubuntu/.elasticbeanstalk/"
 mkdir -p "$WERCKER_SOURCE_DIR/.elasticbeanstalk/"
+mkdir -p "$WERCKER_SOURCE_DIR/.aws"
 if [ $? -ne "0" ]
 then
     fail "Unable to make directory.";
@@ -47,8 +48,12 @@ debug "Change back to the source dir.";
 cd $WERCKER_SOURCE_DIR
 
 AWSEB_CREDENTIAL_FILE="/home/ubuntu/.elasticbeanstalk/aws_credential_file"
-AWSEB_CONFIG_FILE="$WERCKER_SOURCE_DIR/.aws/config"
+AWSEB_CONFIG_FILE="/home/ubuntu/.aws/config"
 AWSEB_EB_CONFIG_FILE="$WERCKER_SOURCE_DIR/.elasticbeanstalk/config.yml"
+
+echo "===================================================================================================="
+env
+echo "===================================================================================================="
 
 debug "Setting up credentials."
 cat <<EOT >> $AWSEB_CREDENTIAL_FILE
