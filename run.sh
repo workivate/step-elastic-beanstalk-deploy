@@ -37,8 +37,8 @@ AWSEB_ROOT="$WERCKER_STEP_ROOT/eb-tools"
 AWSEB_TOOL="$AWSEB_ROOT/bin/eb"
 
 #mkdir -p "/home/ubuntu/.elasticbeanstalk/"
+mkdir -p "/home/ubuntu/.aws"
 mkdir -p "$WERCKER_SOURCE_DIR/.elasticbeanstalk/"
-mkdir -p "$WERCKER_SOURCE_DIR/.aws"
 if [ $? -ne "0" ]
 then
     fail "Unable to make directory.";
@@ -47,7 +47,7 @@ fi
 debug "Change back to the source dir.";
 cd $WERCKER_SOURCE_DIR
 
-AWSEB_CREDENTIAL_FILE="/home/ubuntu/.elasticbeanstalk/aws_credential_file"
+AWSEB_CREDENTIAL_FILE="/home/ubuntu/.aws/aws_credential_file"
 AWSEB_CONFIG_FILE="/home/ubuntu/.aws/config"
 AWSEB_EB_CONFIG_FILE="$WERCKER_SOURCE_DIR/.elasticbeanstalk/config.yml"
 
@@ -85,13 +85,13 @@ then
     fail "Unable to set up config file."
 fi
 
-#if [ -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_DEBUG" ]
-#then
+if [ -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_DEBUG" ]
+then
     debug "Dumping config file."
     cat $AWSEB_CREDENTIAL_FILE
     cat $AWSEB_CONFIG_FILE
     cat $AWSEB_EB_CONFIG_FILE
-#fi
+fi
 
 $AWSEB_TOOL use $WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME || fail "EB is not working or is not set up correctly."
 
