@@ -9,9 +9,9 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 import sys
-import ebcli.core.ebcore
 sys.path.append('..')
 sys.path.append('../ebcli')
+import ebcli.core.ebcore
 
 def main():
     return ebcli.core.ebcore.main()
