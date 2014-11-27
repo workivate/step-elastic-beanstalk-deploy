@@ -34,9 +34,9 @@ then
 fi
 
 AWSEB_ROOT="$WERCKER_STEP_ROOT/eb-tools"
-AWSEB_TOOL="$AWSEB_ROOT/eb/linux/python2.7/eb"
+AWSEB_TOOL="$AWSEB_ROOT/awsebcli-3.0.9/bin/eb"
 
-mkdir -p "/home/ubuntu/.elasticbeanstalk/"
+#mkdir -p "/home/ubuntu/.elasticbeanstalk/"
 mkdir -p "$WERCKER_SOURCE_DIR/.elasticbeanstalk/"
 if [ $? -ne "0" ]
 then
@@ -47,9 +47,7 @@ debug "Change back to the source dir.";
 cd $WERCKER_SOURCE_DIR
 
 AWSEB_CREDENTIAL_FILE="/home/ubuntu/.elasticbeanstalk/aws_credential_file"
-AWSEB_CONFIG_FILE="$WERCKER_SOURCE_DIR/.elasticbeanstalk/config"
-AWSEB_DEVTOOLS_ENDPOINT="git.elasticbeanstalk.$WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION.amazonaws.com"
-AWSEB_SERVICE_ENDPOINT="https://elasticbeanstalk.$WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION.amazonaws.com"
+AWSEB_CONFIG_FILE="$WERCKER_SOURCE_DIR/.elasticbeanstalk/config.yml"
 
 debug "Setting up credentials."
 cat <<EOT >> $AWSEB_CREDENTIAL_FILE
@@ -65,19 +63,15 @@ fi
 
 debug "Setting up config file."
 cat <<EOT >> $AWSEB_CONFIG_FILE
-[global]
-ApplicationName=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_APP_NAME
-DevToolsEndpoint=$AWSEB_DEVTOOLS_ENDPOINT
-Region=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION
-ServiceEndpoint=$AWSEB_SERVICE_ENDPOINT
-AwsCredentialFile=$AWSEB_CREDENTIAL_FILE
-EnvironmentName=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME
-[branches]
-$WERCKER_GIT_BRANCH=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME
-[branch:$WERCKER_GIT_BRANCH]
-ApplicationVersionName=$WERCKER_GIT_BRANCH
-EnvironmentName=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME
-InstanceProfileName=aws-elasticbeanstalk-ec2-role
+branch-defaults:
+  $WERCKER_GIT_BRANCH:
+    environment: $WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME
+global:
+  application_name: $WERCKER_ELASTIC_BEANSTALK_DEPLOY_APP_NAME
+  default_platform: 64bit Amazon Linux 2014.03 v1.0.0 running Ruby 2.1 (Puma)
+  default_region: $WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION
+  profile: eb-cli
+  sc: git
 EOT
 if [ $? -ne "0" ]
 then
@@ -97,14 +91,8 @@ then
     fail "EB is not working or is not set up correctly."
 fi
 
-sudo bash $AWSEB_ROOT/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
-if [ $? -ne "0" ]
-then
-    fail "Unknown error with EB tools."
-fi
-
 debug "Pushing to AWS eb servers."
-git aws.push
+$AWSEB_TOOL deploy
 if [ $? -ne "0" ]
 then
     fail "Unable to push to Amazon Elastic Beanstalk"   
