@@ -16,7 +16,7 @@ properties:
   secret:
     type: string
     required: true
-  app_nem:
+  app_name:
     type: string
     required: true
   env_name:
