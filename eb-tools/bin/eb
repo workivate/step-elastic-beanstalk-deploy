@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/env python
 # EASY-INSTALL-ENTRY-SCRIPT: 'awsebcli==3.0.10','console_scripts','eb'
 __requires__ = 'awsebcli==3.0.10'
 import sys,os
