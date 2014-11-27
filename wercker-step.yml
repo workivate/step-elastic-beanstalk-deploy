@@ -9,3 +9,19 @@ keywords:
   - aws eb
   - amazon eb
   - eb
+properties:
+  key:
+    type: string
+    required: true
+  secret:
+    type: string
+    required: true
+  app_nem:
+    type: string
+    required: true
+  env_name:
+    type: string
+    required: true
+  region:
+    type: string
+    required: true
