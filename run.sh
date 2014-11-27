@@ -103,10 +103,6 @@ then
 fi
 
 debug "Pushing to AWS eb servers."
-$AWSEB_TOOL deploy
-if [ $? -ne "0" ]
-then
-    fail "Unable to push to Amazon Elastic Beanstalk"   
-fi
+$AWSEB_TOOL deploy || fail "Unable to push to Amazon Elastic Beanstalk" || true # catach timeout
 
 success 'Successfully pushed to Amazon Elastic Beanstalk'
