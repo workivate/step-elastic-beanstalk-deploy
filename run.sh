@@ -51,10 +51,6 @@ AWSEB_CREDENTIAL_FILE="/home/ubuntu/.elasticbeanstalk/aws_credential_file"
 AWSEB_CONFIG_FILE="/home/ubuntu/.aws/config"
 AWSEB_EB_CONFIG_FILE="$WERCKER_SOURCE_DIR/.elasticbeanstalk/config.yml"
 
-echo "===================================================================================================="
-env
-echo "===================================================================================================="
-
 debug "Setting up credentials."
 cat <<EOT >> $AWSEB_CREDENTIAL_FILE
 AWSAccessKeyId=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_KEY
@@ -89,13 +85,13 @@ then
     fail "Unable to set up config file."
 fi
 
-if [ -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_DEBUG" ]
-then
+#if [ -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_DEBUG" ]
+#then
     debug "Dumping config file."
     cat $AWSEB_CREDENTIAL_FILE
     cat $AWSEB_CONFIG_FILE
     cat $AWSEB_EB_CONFIG_FILE
-fi
+#fi
 
 $AWSEB_TOOL use $WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME || fail "EB is not working or is not set up correctly."
 
