@@ -33,23 +33,24 @@ then
     warn "Debug mode turned on, this can dump potentially dangerous information to log files."
 fi
 
+DEPLOYMENT_DIR="$WERCKER_SOURCE_DIR/build"
+
 AWSEB_ROOT="$WERCKER_STEP_ROOT/eb-cli"
 AWSEB_TOOL="$AWSEB_ROOT/bin/eb"
 
 #mkdir -p "/home/ubuntu/.elasticbeanstalk/"
 mkdir -p "/home/ubuntu/.aws"
-mkdir -p "$WERCKER_SOURCE_DIR/.elasticbeanstalk/"
+mkdir -p "$DEPLOYMENT_DIR/.elasticbeanstalk/"
 if [ $? -ne "0" ]
 then
     fail "Unable to make directory.";
 fi
 
-debug "Change back to the source dir.";
-cd $WERCKER_SOURCE_DIR
+cd $DEPLOYMENT_DIR
 
 AWSEB_CREDENTIAL_FILE="/home/ubuntu/.aws/aws_credential_file"
 AWSEB_CONFIG_FILE="/home/ubuntu/.aws/config"
-AWSEB_EB_CONFIG_FILE="$WERCKER_SOURCE_DIR/.elasticbeanstalk/config.yml"
+AWSEB_EB_CONFIG_FILE="$DEPLOYMENT_DIR/.elasticbeanstalk/config.yml"
 
 debug "Setting up credentials."
 cat <<EOT >> $AWSEB_CREDENTIAL_FILE
@@ -101,6 +102,14 @@ if [ $? -ne "0" ]
 then
     fail "EB is not working or is not set up correctly."
 fi
+
+debug "Creating deployment git repo"
+git config --global user.email "wercker@workangel.com"
+git config --global user.name "wercker"
+echo ".elasticbeanstalk/" > .gitignore
+git init
+git add .
+git commit -m "rubbish commit message"
 
 debug "Pushing to AWS eb servers."
 $AWSEB_TOOL deploy || true # catach timeout
