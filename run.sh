@@ -110,6 +110,7 @@ echo ".elasticbeanstalk/" > .gitignore
 git init
 git add .
 git commit -m "rubbish commit message"
+git checkout -b $WERCKER_GIT_BRANCH
 
 debug "Pushing to AWS eb servers."
 $AWSEB_TOOL deploy || true # catach timeout
